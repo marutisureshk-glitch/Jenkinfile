@@ -3,7 +3,7 @@ pipeline
     agent any
     stages
     {
-        stage('continuous download')
+        stage('continuous downloada')
     {
         steps
         {
