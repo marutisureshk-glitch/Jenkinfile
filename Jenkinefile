@@ -17,7 +17,7 @@ pipeline
           sh 'mvn package'
         }
     }
-    stage('continuous deployment')
+    stage('continuousdsfsd deployment')
     {
         steps
         {
