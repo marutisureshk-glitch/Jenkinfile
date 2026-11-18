@@ -1,0 +1,43 @@
+pipeline
+{
+    agent any
+    stages
+    {
+        stage('continuous download')
+    {
+        steps
+        {
+          git 'https://github.com/marutisureshk-glitch/mymaven.git'  
+        }
+    }
+    stage('continous build')
+    {
+        steps
+        {
+          sh 'mvn package'
+        }
+    }
+    stage('continuous deployment')
+    {
+        steps
+        {
+        deploy adapters: [tomcat9(alternativeDeploymentContext: '', credentialsId: '8cf959c7-b733-4311-9a5f-c847a2b415e8', path: '', url: 'http://34.224.70.207:8080')], contextPath: 'deploy1', war: '**/*.war'    
+        }
+    }
+    stage('continuous testing')
+    {
+        steps
+        {
+            git 'https://github.com/marutisureshk-glitch/functiontest.git'
+            sh 'java -jar /var/lib/jenkins/workspace/declarativepipeline/testing.jar'
+        }
+    }
+    stage('continuous delivery')
+    {
+        steps
+        {
+            deploy adapters: [tomcat7(alternativeDeploymentContext: '', credentialsId: '8cf959c7-b733-4311-9a5f-c847a2b415e8', path: '', url: 'http://54.197.180.92:8080')], contextPath: 'prod1', war: '**/*.war'
+        }
+    }
+    }
+}
